@@ -19,7 +19,7 @@ extern crate log;
 // actually use. In production code, the second implementation which uses higher level abstractions
 // would be preferable, but this one exposes the core tokio constructs better and has therefore
 // higher educational value.
-pub mod low_level_transport;
+mod low_level_transport;
 // pub use low_level_transport::LowLevelLineTransport as LineTransport;
 // pub use low_level_transport::new_line_transport;
 
