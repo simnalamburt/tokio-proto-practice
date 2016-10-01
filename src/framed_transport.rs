@@ -21,7 +21,7 @@ impl Parse for Parser {
         // Make sure the data is continuous in memory. BlockBuf is 'faking' a continuous buffer -
         // if you receive two TCP packets, block buf will keep two allocated memory blocks around -
         // this is very efficient for reading, but since we call the 'bytes' method below which
-        // requires a single continous block of memory, we need to ask blockbuf to defrag itself. 
+        // requires a single continous block of memory, we need to ask blockbuf to defrag itself.
         if !buf.is_compact() {
             buf.compact();
         }
