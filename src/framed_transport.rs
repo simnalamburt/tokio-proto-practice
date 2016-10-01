@@ -4,7 +4,13 @@ use std::{io, str};
 use std::fmt::Write;
 use tokio::io::Io;
 use proto::{pipeline, Parse, Serialize, Framed};
-use low_level_transport::Frame;
+
+/// This defines the chunks written to our transport, i.e. the representation
+/// that the `Service` deals with. In our case, the received and sent frames
+/// are the same (Strings with io::Error as failures), however they
+/// could also be different (for example HttpRequest for In and HttpResponse
+/// for Out).
+pub type Frame = pipeline::Frame<String, (), io::Error>;
 
 pub struct Parser;
 
