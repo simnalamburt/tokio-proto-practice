@@ -2,15 +2,15 @@ use futures::{self, Async, Future};
 use std::io;
 use std::net::SocketAddr;
 use tokio_service::Service;
-use proto::{self, pipeline};
-use tokio::reactor::Handle;
-use tokio::net::TcpStream;
+use tokio_proto::{self, pipeline};
+use tokio_core::reactor::Handle;
+use tokio_core::net::TcpStream;
 use futures::stream::Empty;
 use new_line_transport;
 
 /// And the client handle.
 pub struct Client {
-    inner: proto::Client<String, String, Empty<(), io::Error>, io::Error>,
+    inner: tokio_proto::Client<String, String, Empty<(), io::Error>, io::Error>,
 }
 
 impl Service for Client {
@@ -27,7 +27,7 @@ impl Service for Client {
             return Box::new(futures::done(Err(err)))
         }
 
-        self.inner.call(proto::Message::WithoutBody(req))
+        self.inner.call(tokio_proto::Message::WithoutBody(req))
             .boxed()
     }
 

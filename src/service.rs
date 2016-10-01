@@ -1,6 +1,6 @@
-use proto::{self, pipeline, server};
+use tokio_proto::{self, pipeline, server};
 use tokio_service::{Service, NewService};
-use tokio::reactor::Handle;
+use tokio_core::reactor::Handle;
 use futures::{Async, Future};
 use futures::stream::Empty;
 use std::io;
@@ -21,7 +21,7 @@ impl<T> Service for LineService<T>
           T::Future: 'static,
 {
     type Request = String;
-    type Response = proto::Message<String, Empty<(), io::Error>>;
+    type Response = tokio_proto::Message<String, Empty<(), io::Error>>;
     type Error = io::Error;
 
     // To make things easier, we are just going to box the future here, however
@@ -35,7 +35,7 @@ impl<T> Service for LineService<T>
                 if resp.chars().find(|&c| c == '\n').is_some() {
                     Err(io::Error::new(io::ErrorKind::InvalidInput, "message contained new line"))
                 } else {
-                    Ok(proto::Message::WithoutBody(resp))
+                    Ok(tokio_proto::Message::WithoutBody(resp))
                 }
             }))
     }

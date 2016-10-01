@@ -2,8 +2,8 @@ use bytes::{Buf, MutBuf};
 use bytes::buf::{BlockBuf, Fmt};
 use std::{io, str};
 use std::fmt::Write;
-use tokio::io::Io;
-use proto::{pipeline, Parse, Serialize, Framed};
+use tokio_core::io::Io;
+use tokio_proto::{pipeline, Parse, Serialize, Framed};
 
 /// This defines the chunks written to our transport, i.e. the representation
 /// that the `Service` deals with. In our case, the received and sent frames
@@ -54,7 +54,7 @@ impl Serialize for Serializer {
     type In = Frame;
 
     fn serialize(&mut self, frame: Frame, buf: &mut BlockBuf) {
-        use proto::pipeline::Frame::*;
+        use tokio_proto::pipeline::Frame::*;
 
         match frame {
             Message(text) => {
