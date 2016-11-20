@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# payload to be sent
+read -r -d '' PAYLOAD <<'END'
+# Length: 6, Message: "Hello!"
+06000000 48656c6c6f21
+
+# Length: 6, Message: "Hello!"
+06000000 48656c6c6f21
+
+# Length: 6, Message: "Hello!"
+06000000 48656c6c6f21
+END
+
+# python3 codes
+read -r -d '' CODE <<'END'
+import re
+import sys
+import binascii
+
+regex = re.compile(r'(?:\s|#.*$)')
+for line in sys.stdin:
+    hex = regex.sub('', line)
+    binary = binascii.unhexlify(hex)
+    sys.stdout.buffer.write(binary)
+END
+
+# Execute
+echo "$PAYLOAD" | python3 -c "$CODE" | nc 127.0.0.1 12345 | xxd

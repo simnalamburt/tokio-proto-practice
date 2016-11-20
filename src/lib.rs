@@ -1,3 +1,4 @@
+extern crate byteorder;
 extern crate bytes;
 // The `futures` crate contains the future & stream implementations as well
 // as combinators to manipulate the async values.
